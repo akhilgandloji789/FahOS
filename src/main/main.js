@@ -3,7 +3,7 @@
  * Phase 2: Pluggable AI Multi-Provider Foundation & Intent Orchestrator
  */
 
-const { app, BrowserWindow, globalShortcut, ipcMain, screen, Tray, Menu, nativeImage } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, screen, Tray, Menu, nativeImage, shell } = require('electron');
 const path = require('path');
 const { loadConfig } = require('./config');
 const { runAction, createProvider } = require('./features/ai/router');
@@ -186,11 +186,53 @@ app.whenReady().then(() => {
     return { tiers: listTiers() };
   });
 
-  // Auxiliary Stubs for UI features
-  ipcMain.handle('fahos:getHistory', async () => []);
-  ipcMain.handle('fahos:addHistory', async () => ({ ok: true }));
-  ipcMain.handle('fahos:clearHistory', async () => ({ ok: true }));
-  ipcMain.handle('fahos:getContacts', async () => []);
+  // Local-First History IPC Handlers
+  const historyService = require('./features/history/historyService');
+  ipcMain.handle('fahos:getHistory', async () => {
+    return historyService.loadHistory();
+  });
+
+  ipcMain.handle('fahos:addHistory', async (_event, item) => {
+    return historyService.addEntry(item);
+  });
+
+  ipcMain.handle('fahos:clearHistory', async () => {
+    return historyService.clearHistory();
+  });
+
+  // Local-First Phonebook (Contacts) IPC Handlers
+  const contactsService = require('./features/contacts/contactsService');
+  const systemActions = require('./features/system/systemActions');
+  ipcMain.handle('fahos:getContacts', async () => {
+    return contactsService.getAllContacts();
+  });
+
+  ipcMain.handle('fahos:saveContact', async (_event, payload) => {
+    return contactsService.saveContact(payload.name, payload.phone, payload.email);
+  });
+
+  ipcMain.handle('fahos:composeEmail', async (_event, payload) => {
+    const target = payload && (payload.contactOrEmail || payload.target || payload.email || payload.name);
+    return systemActions.composeEmail(target, payload && payload.subject, payload && payload.body);
+  });
+
+  ipcMain.handle('fahos:deleteContact', async (_event, name) => {
+    return contactsService.deleteContact(name);
+  });
+
+  ipcMain.handle('fahos:openContactChat', async (_event, name, message = '') => {
+    if (message && message.trim()) {
+      return systemActions.openWhatsAppChat(name, message);
+    }
+    const contact = contactsService.getPhoneForContact(name);
+    if (contact && contact.phone) {
+      const url = `whatsapp://send?phone=${contact.phone}`;
+      console.log('[FahOS Main] Opening WhatsApp via native shell.openExternal:', url);
+      await shell.openExternal(url);
+      return { ok: true, command: url, description: `Opened WhatsApp chat with **${name}**.` };
+    }
+    return systemActions.openWhatsAppChat(name);
+  });
 
   ipcMain.handle('fahos:setHeight', async (_event, targetHeight) => {
     if (win && !win.isDestroyed()) {
