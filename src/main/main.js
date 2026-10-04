@@ -8,6 +8,9 @@ const path = require('path');
 const { loadConfig } = require('./config');
 const { runAction, createProvider } = require('./features/ai/router');
 const { orchestrateResponse, classifyQuery, getTierInfo, listTiers } = require('./features/ai/orchestrator');
+const { getTranscriber } = require('./features/voice/localWhisper');
+const whisperService = require('./features/voice/whisperService');
+const nativeStt = require('./features/voice/nativeStt');
 
 // Prevent duplicate instances
 const gotTheLock = app.requestSingleInstanceLock();
@@ -138,6 +141,11 @@ app.whenReady().then(() => {
   }
 
   createWindow();
+
+  // Pre-warm local Whisper model in background
+  try {
+    getTranscriber().catch((e) => console.warn('[FahOS] Whisper pre-warm warning:', e));
+  } catch (_) {}
 
   // Create System Tray
   try {
@@ -310,16 +318,35 @@ app.whenReady().then(() => {
       if (!audioBuffer || audioBuffer.length < 100) {
         return { ok: false, error: 'Audio buffer empty or too small' };
       }
-      console.log('[FahOS Audio Pipeline] Received', audioBuffer.length, 'bytes of 16kHz audio samples');
-      return { ok: true, text: '', status: 'Buffer decoded successfully.' };
+      console.log('[FahOS Whisper] Transcribing', audioBuffer.length, 'bytes of audio (WAV PCM)');
+      return await whisperService.transcribeAudio(audioBuffer, float32Fallback);
     } catch (err) {
       console.error('[FahOS] transcribeAudio error:', err);
       return { ok: false, error: err.message };
     }
   });
 
-  ipcMain.handle('fahos:startSpeech', async () => ({ ok: true }));
-  ipcMain.handle('fahos:stopSpeech', async () => ({ ok: true }));
+  // Native Speech-to-Text IPC Handlers
+  ipcMain.handle('fahos:startSpeech', async () => {
+    nativeStt.startListening({
+      onText: (data) => {
+        if (win && !win.isDestroyed()) {
+          win.webContents.send('fahos:speechText', data);
+        }
+      },
+      onError: (err) => {
+        if (win && !win.isDestroyed()) {
+          win.webContents.send('fahos:speechError', err);
+        }
+      }
+    });
+    return { ok: true };
+  });
+
+  ipcMain.handle('fahos:stopSpeech', async () => {
+    nativeStt.stopListening();
+    return { ok: true };
+  });
 
   ipcMain.handle('fahos:setHeight', async (_event, targetHeight) => {
     if (win && !win.isDestroyed()) {
@@ -351,4 +378,5 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => { /* keep running in background */ });
 app.on('will-quit', () => {
   globalShortcut.unregisterAll();
+  nativeStt.killWorker();
 });
