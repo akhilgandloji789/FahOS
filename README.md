@@ -30,22 +30,14 @@ FahOS is designed as an ultra-lightweight, floating obsidian glass HUD that sits
 
 ---
 
-## 🚀 Hackathon Roadmap & Progress
+## 🏗️ Core Architecture
 
-- [x] **Phase 1: Core Scaffolding & Glass HUD**
-  - Transparent obsidian glass overlay window
-  - Zero-flicker dragging and frameless styling
-  - IPC context isolation bridge
-- [x] **Phase 2: Pluggable AI Multi-Provider Foundation & Router** *(Current)*
-  - Multi-provider AI abstraction: Gemini 3.6 Flash, Groq Qwen 3.8, Ollama, and Mock
-  - 5-Tier dynamic complexity query orchestrator & failover matrix
-  - Intent classification and contextual routing
-  - Live web search grounding (DuckDuckGo + Wikipedia)
-- [ ] **Phase 3: System Automation, CRUD Filesystem & 3-Tier Security Guard**
-- [ ] **Phase 4: Real-Time Dual Whisper STT Audio Pipeline**
-- [ ] **Phase 5: Gemini Multimodal Vision & Native Mouse Control**
-- [ ] **Phase 6: Playwright Autonomous Web Microservice**
-- [ ] **Phase 7: End-to-End Test Suite & Final System Polish**
+- 🎙️ **Voice Engine**: In-memory 16kHz audio capture with dual-engine Whisper transcription.
+- 🧠 **AI Orchestration**: Dynamic 5-tier query complexity classification with multi-provider failover.
+- ⚡ **Native Action Engine**: Real-time OS execution, Start Menu application scanner, and CRUD filesystem operations.
+- 🔒 **3-Tier Security Guard**: Active safeguards requiring explicit confirmation before executing destructive operations.
+- 👁️ **Visual Screen Agency**: Ephemeral in-memory GDI capture with multimodal UI element localization.
+- 🌐 **Web Microservice**: Autonomous Playwright agent for multi-step browser tasks with real-time web search grounding.
 
 ---
 
