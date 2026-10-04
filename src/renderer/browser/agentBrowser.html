@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FahOS Unified Browser</title>
+  <link rel="stylesheet" href="agentBrowser.css">
+</head>
+<body>
+  <!-- Frosted Glassmorphism Header Bar -->
+  <div class="hud-header">
+    <div class="hud-top-row">
+      <div class="brand-group">
+        <div class="pulse-indicator" id="pulse-led"></div>
+        <span class="title">FahOS Unified Browser <span class="brand-sparkle">✦</span></span>
+        <span class="status-badge" id="status-badge">READY</span>
+      </div>
+      <div class="controls">
+        <button class="btn-stop" id="btn-stop">Stop Task</button>
+        <button class="btn-close" id="btn-close" title="Close Window">✕</button>
+      </div>
+    </div>
+
+    <!-- Minimalist Glass Navigation Bar -->
+    <div class="nav-bar">
+      <button class="nav-btn" id="nav-back" title="Back">◀</button>
+      <button class="nav-btn" id="nav-forward" title="Forward">▶</button>
+      <button class="nav-btn" id="nav-refresh" title="Reload">⟳</button>
+      <input type="text" class="url-input" id="url-input" placeholder="Search or type web address..." value="https://www.google.com" />
+    </div>
+
+    <!-- Active Task Goal Banner -->
+    <div class="goal-box">
+      <span class="goal-label">GOAL</span>
+      <span class="goal-text" id="goal-text">Browse freely or issue any voice/text command to FahOS...</span>
+    </div>
+
+    <!-- Live Step Breadcrumb Pills -->
+    <div class="steps-container" id="steps-container">
+      <div class="step-pill completed" id="step-0">✓ Session Ready (Persistent Profile Active)</div>
+    </div>
+  </div>
+
+  <!-- Main Webview Area with Persistent Partition -->
+  <div class="browser-wrapper">
+    <webview id="agent-webview" src="https://www.google.com" partition="persist:fahos_user_profile" allowpopups></webview>
+  </div>
+
+  <!-- Bottom Answer Bar -->
+  <div class="result-banner">
+    <div class="result-content">
+      <span class="result-label" id="result-label">STATUS</span>
+      <span class="result-text" id="result-text">FahOS Unified Browser is active with your saved accounts & logins.</span>
+    </div>
+  </div>
+
+  <script src="agentBrowser.js"></script>
+</body>
+</html>

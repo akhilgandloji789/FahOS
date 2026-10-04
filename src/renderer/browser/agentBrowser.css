@@ -1,0 +1,330 @@
+﻿@import url("../shared/theme.css");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-canvas);
+  color: var(--text-secondary);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Top HUD Header (Frosted Glassmorphism matching FahOS Overlay)
+   ========================================================================== */
+.hud-header {
+  background: var(--bg-widget);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border-card);
+  padding: 10px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.hud-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pulse-indicator {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 10px var(--emerald-glow);
+  animation: pulseLed 1.8s infinite;
+}
+
+@keyframes pulseLed {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.title {
+  font-size: 13.5px;
+  font-weight: 750;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand-sparkle {
+  color: var(--cyan);
+  font-size: 11px;
+  text-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.status-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2.5px 8px;
+  border-radius: 12px;
+  background: var(--bg-frosted);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+  letter-spacing: 0.4px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Stop Task Button (Ruby pill matching FahOS mic/danger accents) */
+.btn-stop {
+  padding: 5px 13px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border-radius: 14px;
+  cursor: pointer;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: var(--ruby);
+  color: #FFFFFF;
+  box-shadow: 0 0 12px var(--ruby-glow);
+  transition: var(--transition-fast);
+}
+.btn-stop:hover {
+  background: var(--ruby-hover);
+  border-color: #f87171;
+  transform: scale(1.04);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+}
+
+/* Close Window Button (Circular glass matching FahOS close-icon) */
+.btn-close {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border-card);
+  background: var(--bg-bubble);
+  color: var(--text-dim);
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  font-size: 12px;
+  transition: var(--transition-fast);
+}
+.btn-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  transform: scale(1.08);
+}
+
+/* ==========================================================================
+   Navigation Bar (Full-Width Minimalist Glass)
+   ========================================================================== */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-frosted);
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+  padding: 5px 8px;
+}
+
+.nav-btn {
+  background: var(--bg-bubble);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+.nav-btn:hover {
+  background: var(--cyan-subtle);
+  border-color: var(--border-highlight);
+  color: var(--cyan);
+  transform: scale(1.06);
+}
+
+.url-input {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+  padding: 6px 12px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  outline: none;
+  user-select: text;
+  transition: var(--transition-fast);
+}
+.url-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+/* ==========================================================================
+   Goal Banner & Step Pills
+   ========================================================================== */
+.goal-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.goal-label {
+  font-weight: 800;
+  color: var(--cyan);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.goal-text {
+  color: var(--text-primary);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.steps-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+.steps-container::-webkit-scrollbar {
+  height: 4px;
+}
+.steps-container::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 2px;
+}
+
+.step-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.step-pill.active {
+  background: rgba(2, 132, 199, 0.25);
+  color: #FFFFFF;
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+
+.step-pill.completed {
+  background: var(--emerald-subtle);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.step-arrow {
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+/* ==========================================================================
+   Main Webview Content Area
+   ========================================================================== */
+.browser-wrapper {
+  flex: 1;
+  padding: 8px 18px;
+  background: var(--bg-canvas);
+  display: flex;
+  flex-direction: column;
+}
+
+webview {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border-card);
+  background: #FFFFFF;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   Bottom Extracted Result Banner (Glassmorphism Emerald Glow)
+   ========================================================================== */
+.result-banner {
+  background: var(--bg-widget);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border-card);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+}
+
+.result-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.result-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #34d399;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  background: var(--emerald-subtle);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 3px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 0 8px var(--emerald-glow);
+}
+
+.result-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

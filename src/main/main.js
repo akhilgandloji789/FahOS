@@ -468,6 +468,25 @@ app.whenReady().then(() => {
     }
   });
 
+  // Autonomous Browser Control IPC Handlers (Phase 6B)
+  const agentBrowserWindow = require('./features/browser/agentBrowserWindow');
+  ipcMain.handle('fahos:openBrowserWindow', async (_event, url) => {
+    agentBrowserWindow.createAgentBrowserWindow(url || 'https://www.google.com');
+    return { ok: true };
+  });
+
+  const browserService = require('./features/browser/browserService');
+  ipcMain.handle('fahos:browserTask', async (_event, payload) => {
+    const taskText = (payload && payload.task) || '';
+    return agentBrowserWindow.runAgentTask(taskText);
+  });
+
+  ipcMain.handle('fahos:cancelBrowserTask', async () => {
+    const agentController = require('./features/browser/agentBrowserController');
+    agentController.cancel();
+    return { ok: true };
+  });
+
   ipcMain.handle('fahos:setHeight', async (_event, targetHeight) => {
     if (win && !win.isDestroyed()) {
       const [w] = win.getSize();
@@ -499,4 +518,7 @@ app.on('window-all-closed', () => { /* keep running in background */ });
 app.on('will-quit', () => {
   globalShortcut.unregisterAll();
   nativeStt.killWorker();
+  const browserService = require('./features/browser/browserService');
+  browserService.cancelActiveBrowserTask().catch(() => {});
 });
+
