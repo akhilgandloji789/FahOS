@@ -3,7 +3,7 @@
  * Phase 2: Pluggable AI Multi-Provider Foundation & Intent Orchestrator
  */
 
-const { app, BrowserWindow, globalShortcut, ipcMain, screen, Tray, Menu, nativeImage, shell, session } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, screen, Tray, Menu, nativeImage, shell, session, desktopCapturer } = require('electron');
 const path = require('path');
 const { loadConfig } = require('./config');
 const { runAction, createProvider } = require('./features/ai/router');
@@ -11,6 +11,21 @@ const { orchestrateResponse, classifyQuery, getTierInfo, listTiers } = require('
 const { getTranscriber } = require('./features/voice/localWhisper');
 const whisperService = require('./features/voice/whisperService');
 const nativeStt = require('./features/voice/nativeStt');
+const visualAgent = require('./features/vision/visualAgent');
+
+// Configure in-memory screen capturer (zero disk storage, 100% ephemeral)
+visualAgent.setScreenCapturer(async () => {
+  const primary = screen.getPrimaryDisplay();
+  const { width, height } = primary.bounds;
+  const sources = await desktopCapturer.getSources({
+    types: ['screen'],
+    thumbnailSize: { width, height }
+  });
+  if (sources.length > 0) {
+    return sources[0].thumbnail.toJPEG(75).toString('base64');
+  }
+  return null;
+});
 
 // Prevent duplicate instances
 const gotTheLock = app.requestSingleInstanceLock();
@@ -346,6 +361,27 @@ app.whenReady().then(() => {
   ipcMain.handle('fahos:stopSpeech', async () => {
     nativeStt.stopListening();
     return { ok: true };
+  });
+
+  // Ephemeral Vision Image Analysis IPC Handler (Phase 5A)
+  ipcMain.handle('fahos:analyzeAttachedImage', async (_event, payload) => {
+    const gemKey = cfg.geminiApiKey || (cfg.providers && cfg.providers.gemini && cfg.providers.gemini.apiKey);
+    if (!gemKey) {
+      return { ok: false, error: 'Gemini API key is not configured in FahOS settings.' };
+    }
+    const imageBase64 = payload && payload.image;
+    const userPrompt = (payload && payload.prompt) || '';
+    if (!imageBase64) {
+      return { ok: false, error: 'No image attached.' };
+    }
+    try {
+      console.log('[FahOS Vision] Analyzing attached image with prompt:', userPrompt || '(default)');
+      const analysis = await visualAgent.analyzeImageWithPrompt(imageBase64, userPrompt, gemKey);
+      return { ok: true, output: analysis };
+    } catch (err) {
+      console.error('[FahOS Vision] Analysis error:', err);
+      return { ok: false, error: err.message || String(err) };
+    }
   });
 
   ipcMain.handle('fahos:setHeight', async (_event, targetHeight) => {
