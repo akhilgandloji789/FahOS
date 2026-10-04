@@ -102,6 +102,44 @@ function createWindow() {
   if (isDev) win.webContents.openDevTools({ mode: 'detach' });
 }
 
+let snipWindow = null;
+
+function createSnipWindow() {
+  if (snipWindow && !snipWindow.isDestroyed()) {
+    snipWindow.show();
+    snipWindow.focus();
+    return snipWindow;
+  }
+
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.bounds;
+
+  snipWindow = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width,
+    height,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    resizable: false,
+    movable: false,
+    hasShadow: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
+  });
+
+  snipWindow.loadFile(path.join(__dirname, '..', 'renderer', 'snipper', 'snip.html'));
+  snipWindow.setAlwaysOnTop(true, 'screen-saver');
+  snipWindow.on('closed', () => {
+    snipWindow = null;
+  });
+  return snipWindow;
+}
+
 function showOverlay() {
   if (!win) return;
   lastShowTime = Date.now();
@@ -381,6 +419,52 @@ app.whenReady().then(() => {
     } catch (err) {
       console.error('[FahOS Vision] Analysis error:', err);
       return { ok: false, error: err.message || String(err) };
+    }
+  });
+
+  // Interactive Screen Region Snipper Handlers (Phase 5B)
+  ipcMain.handle('fahos:startSnipper', async () => {
+    if (win && !win.isDestroyed()) win.hide();
+    createSnipWindow();
+    return { ok: true };
+  });
+
+  ipcMain.on('fahos:cancelSnip', () => {
+    if (snipWindow && !snipWindow.isDestroyed()) {
+      snipWindow.close();
+      snipWindow = null;
+    }
+    if (win && !win.isDestroyed()) {
+      win.show();
+      win.focus();
+    }
+  });
+
+  ipcMain.on('fahos:confirmSnip', async (_event, bounds) => {
+    if (snipWindow && !snipWindow.isDestroyed()) {
+      snipWindow.close();
+      snipWindow = null;
+    }
+
+    try {
+      console.log('[FahOS Snipper] Cropping screen region in-memory:', bounds);
+      const croppedBase64 = await visualAgent.cropScreenRegion(bounds);
+
+      // Restore main window & send cropped image to renderer
+      if (win && !win.isDestroyed()) {
+        win.show();
+        win.focus();
+        win.webContents.send('fahos:imageSnipped', {
+          image: croppedBase64,
+          bounds: bounds
+        });
+      }
+    } catch (err) {
+      console.error('[FahOS Snipper] Crop error:', err);
+      if (win && !win.isDestroyed()) {
+        win.show();
+        win.focus();
+      }
     }
   });
 
