@@ -24,6 +24,12 @@
 > **FahOS** transforms your Windows PC into a conversational AI operating environment.
 > Speak naturally or type commands — FahOS hears, perceives, reasons, and executes actions directly on your desktop.
 
+<br/>
+
+[![▶ Watch Demo on YouTube](https://img.shields.io/badge/▶%20Watch%20Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/SUAycS4jKGM?si=TwUl7Ac4AHYsrzm7)
+&nbsp;&nbsp;
+[![📊 View Presentation](https://img.shields.io/badge/📊%20View%20Presentation-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1tONjoiOU7snfEYmmgrPsiL8wShR7DVR6/view?usp=sharing)
+
 </div>
 
 ---
