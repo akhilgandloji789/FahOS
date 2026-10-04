@@ -82,18 +82,34 @@ To prevent accidental data loss, every action passes through an auditable securi
 - **Global Hotkeys**: Instant access via `Ctrl + Space` or `Alt + Space`.
 - **Zero-Flicker Dragging**: Native OS-level smooth repositioning and vertical expansion.
 
+## 📚 Architecture & System Documentation
+
+Comprehensive technical specifications and product documentation are available:
+
+| Document | Description |
+|:---|:---|
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Full system architecture, multi-process event loop, IPC contracts, and security threat model |
+| [PRODUCT_REQUIREMENTS.md](./PRODUCT_REQUIREMENTS.md) | Product requirements document (PRD), user personas, latency budgets, and benchmark targets |
+| [fahos.config.example.json](./fahos.config.example.json) | Configuration schema reference |
+
 ---
 
-## 🔮 Upcoming & Planned Features (Next Hackathon Sprints)
+## 🎬 Live Hackathon Presentation & Demo Script
 
-The following capabilities are actively scheduled for the final sprint:
+For evaluators and jury review, FahOS provides an end-to-end hands-free voice demonstration sequence:
 
-### 1. 📐 System Architecture Whitepaper & Specifications
-- **ARCHITECTURE.md Deep-Dive**: Comprehensive system architecture documentation, IPC communication contracts, security threat modeling, and multi-threaded dataflow diagrams.
-- **PRODUCT_REQUIREMENTS.md**: Full PRD covering core problem statements, target personas, latency budgets, non-functional requirements, and future platform roadmap.
-
-### 2. 🎬 Live Hackathon Demo Walkthrough & Jury Guide
-- **Curated Demonstration Script**: Tested voice workflows for live jury presentation (instant voice query ➔ GDI vision click ➔ autonomous Playwright browser automation ➔ protected filesystem deletion).
+1. **Instant Voice Query**:
+   - Speak: *"Explain how quantum computing works simply"*
+   - Routes dynamically through Groq / Gemini, displaying real-time Markdown output in the floating HUD.
+2. **Vision Screen Agency (Zero Disk Traces)**:
+   - Speak: *"Click on the search bar"*
+   - Triggers ephemeral in-memory GDI capture, Gemini spatial UI coordinate localization, and native Windows cursor movement/click.
+3. **Autonomous Browser Automation**:
+   - Speak: *"Search for latest AI news on techcrunch"*
+   - Launches embedded agent browser window, executes multi-step Playwright actions, and reports progress live.
+4. **Protected Native Filesystem CRUD**:
+   - Speak: *"Create hackathon_demo.txt in downloads"* ➔ Instant execution with status card.
+   - Speak: *"Delete hackathon_demo.txt from downloads"* ➔ 3-tier security guard blocks destructive deletion until explicit confirmation is provided.
 
 ---
 
