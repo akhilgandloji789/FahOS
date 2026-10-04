@@ -24,7 +24,7 @@
 
 Modern desktop operating systems remain tied to manual paradigms developed thirty years ago: navigating nested menus, juggling application windows, and repetitive mouse clicks. While Large Language Models (LLMs) have mastered conversational intelligence, they remain trapped inside web chat windows.
 
-**FahOS bridges the "last mile"** — collapsing the gap between natural human intent and native OS execution. By combining high-speed voice transcription, a 5-tier multi-model reasoning matrix, and native Windows automation, FahOS gives AI actual hands to control your PC.
+**FahOS bridges the "last mile"** — collapsing the gap between natural human intent and native OS execution. By combining high-speed voice transcription, a 5-tier multi-model reasoning matrix, native Windows automation, and multimodal screen perception, FahOS gives AI actual hands and eyes to control your PC.
 
 ---
 
@@ -39,6 +39,12 @@ Modern desktop operating systems remain tied to manual paradigms developed thirt
 - **Multi-Provider Failover Matrix**: Seamless cascading failover across **Google Gemini 3.6 Flash**, **Groq (Qwen 3.8 / GPT-OSS)**, and local **Ollama** models.
 - **Complexity Tier Classification**: Classifies queries into 5 specialized tiers (Simple, Medium, Complex, Coding, and Vision) to balance latency and computational depth.
 - **Live Web Grounding**: Injects real-time DuckDuckGo and Wikipedia search snippets for temporal and current-event queries.
+
+### 👁️ Multimodal Screen Perception & Native Cursor Control
+- **Ephemeral In-Memory GDI Capture**: High-speed desktop snapshot taking using GDI/Bitmap streams without ever writing image bytes to disk (zero disk traces, 100% ephemeral privacy).
+- **Gemini Spatial UI Grounding**: AI screen perception model locating buttons, icons, and menus from natural language descriptions with 3-tier model failover (`gemini-3.6-flash` ➔ `gemini-3.5-flash` ➔ `gemini-3.1-flash-lite`).
+- **Interactive Screen Region Snipper**: Full-screen transparent overlay allowing users to drag and snip any region of their desktop to ask visual questions (`snip.html` & `snip.js`).
+- **Native Mouse Agency**: Windows P/Invoke cursor movement and click simulation to physically interact with on-screen elements.
 
 ### ⚡ Native Windows OS & Filesystem Actions
 - **CRUD Filesystem Agent**: Natural language creation, reading, directory listing, and safe deletion across Desktop, Documents, and Downloads (`systemActions.js`).
@@ -64,20 +70,14 @@ To prevent accidental data loss, every action passes through an auditable securi
 
 ## 🔮 Upcoming & Planned Features (Next Hackathon Sprints)
 
-The following capabilities are actively planned in our progressive roadmap:
+The following capabilities are actively scheduled in our progressive roadmap:
 
-### 1. 👁️ Ephemeral Screen Perception & Gemini Vision (Next Up)
-- **In-Memory GDI Desktop Capture**: Ephemeral screen frame acquisition without touching disk storage.
-- **Spatial UI Element Grounding**: Gemini Multimodal Vision identifies target buttons, menus, and form coordinates from plain English requests.
-- **Native P/Invoke Cursor Control**: C# mouse event synthesis to physically move the Windows cursor and click UI elements.
-- **Interactive Screen Region Snipper**: Lightweight cropping tool to visually ask questions about specific portions of the screen.
-
-### 2. 🌐 Autonomous Playwright Web Agent
+### 1. 🌐 Autonomous Playwright Web Agent (Next Up)
 - **FastAPI Python Microservice**: Standalone headless browser automation backend.
 - **Persistent Chrome Session**: Executes multi-step web workflows while retaining user cookies and authenticated states.
 - **Embedded Agent Browser View**: Live view of automated browser navigation embedded directly inside the FahOS interface.
 
-### 3. 🧪 Full Edge-Case Test Suite & Architecture Docs
+### 2. 🧪 Full Edge-Case Test Suite & Architecture Docs
 - **Jest Test Coverage**: Over 100 automated test suites covering audio decoding, intent classification, and multi-model failover chains.
 - **System Architecture Whitepaper**: Deep-dive component diagrams and execution flow documentation.
 
@@ -123,6 +123,8 @@ Press **`Ctrl + Space`** or **`Alt + Space`** to summon the FahOS overlay from a
 | **Directory Inspection** | *"List files in downloads"* | Reads and formats directory contents in HUD. |
 | **File Reading** | *"Read project_notes.txt from downloads"* | Displays file contents in markdown view. |
 | **Safety Guard** | *"Delete project_notes.txt from downloads"* | **Blocked** by security guard; prompts for explicit confirmation. |
+| **Visual Snipping** | Click **✂️ Snip** button / shortcut | Opens transparent region snipper to ask multimodal questions about UI. |
+| **Vision Mouse Click** | *"Click on the search bar"* | In-memory GDI capture ➔ Gemini Vision finds coordinates ➔ moves cursor and clicks. |
 | **App Control** | *"Open Calculator"* / *"Launch Notepad"* | Indexes Start Menu and starts application. |
 | **Media** | *"Volume up"* / *"Mute audio"* / *"Lock PC"* | Triggers native Windows system controls. |
 | **Reasoning & AI** | *"Explain quantum computing simply"* | Dynamically routes query to optimal AI tier. |
