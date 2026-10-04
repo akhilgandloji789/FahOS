@@ -7,6 +7,8 @@
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://microsoft.com/windows)
 [![Electron](https://img.shields.io/badge/Electron-31.0.0-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://electronjs.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111.0-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Playwright](https://img.shields.io/badge/Playwright-1.44.0-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev)
 [![Gemini](https://img.shields.io/badge/Gemini-3.6%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev)
 [![Groq](https://img.shields.io/badge/Groq-Qwen%203.8-F55036?style=for-the-badge&logo=groq&logoColor=white)](https://groq.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
@@ -14,7 +16,7 @@
 <br/>
 
 > **FahOS** turns your Windows PC into a conversational AI operating environment.  
-> Speak naturally or type commands — FahOS hears, perceives, and executes actions directly on your desktop.
+> Speak naturally or type commands — FahOS hears, perceives, navigates, and executes actions directly on your desktop.
 
 </div>
 
@@ -24,7 +26,7 @@
 
 Modern desktop operating systems remain tied to manual paradigms developed thirty years ago: navigating nested menus, juggling application windows, and repetitive mouse clicks. While Large Language Models (LLMs) have mastered conversational intelligence, they remain trapped inside web chat windows.
 
-**FahOS bridges the "last mile"** — collapsing the gap between natural human intent and native OS execution. By combining high-speed voice transcription, a 5-tier multi-model reasoning matrix, native Windows automation, and multimodal screen perception, FahOS gives AI actual hands and eyes to control your PC.
+**FahOS bridges the "last mile"** — collapsing the gap between natural human intent and native OS execution. By combining high-speed voice transcription, a 5-tier multi-model reasoning matrix, native Windows automation, multimodal screen perception, and autonomous browser navigation, FahOS gives AI actual hands and eyes to control your PC.
 
 ---
 
@@ -39,6 +41,12 @@ Modern desktop operating systems remain tied to manual paradigms developed thirt
 - **Multi-Provider Failover Matrix**: Seamless cascading failover across **Google Gemini 3.6 Flash**, **Groq (Qwen 3.8 / GPT-OSS)**, and local **Ollama** models.
 - **Complexity Tier Classification**: Classifies queries into 5 specialized tiers (Simple, Medium, Complex, Coding, and Vision) to balance latency and computational depth.
 - **Live Web Grounding**: Injects real-time DuckDuckGo and Wikipedia search snippets for temporal and current-event queries.
+
+### 🌐 Autonomous Browser Agent & Embedded Live Controller
+- **FastAPI Microservice Backend**: Dedicated asynchronous Python backend (`browser_service.py`) running headless Playwright automation.
+- **Autonomous Navigation & Interaction**: Capable of multi-step website navigation, search queries, form inputs, and content summarization.
+- **Persistent Profile Sessions**: Preserves browser context, cookies, and authenticated states across sessions.
+- **Embedded Agent Browser Window**: Interactive Electron browser window (`agentBrowserWindow.js`) with live execution logs, activity indicators, step progress counters, and real-time cancellation controls.
 
 ### 👁️ Multimodal Screen Perception & Native Cursor Control
 - **Ephemeral In-Memory GDI Capture**: High-speed desktop snapshot taking using GDI/Bitmap streams without ever writing image bytes to disk (zero disk traces, 100% ephemeral privacy).
@@ -72,14 +80,13 @@ To prevent accidental data loss, every action passes through an auditable securi
 
 The following capabilities are actively scheduled in our progressive roadmap:
 
-### 1. 🌐 Autonomous Playwright Web Agent (Next Up)
-- **FastAPI Python Microservice**: Standalone headless browser automation backend.
-- **Persistent Chrome Session**: Executes multi-step web workflows while retaining user cookies and authenticated states.
-- **Embedded Agent Browser View**: Live view of automated browser navigation embedded directly inside the FahOS interface.
+### 1. 🧪 Comprehensive Edge-Case Test Suites
+- **Full Jest Test Suites**: 113+ automated assertions across 7 dedicated test suites covering audio resampling, intent classification, orchestrator failovers, contacts directory, markdown rendering, and visual agent coordinate mapping.
+- **Automated Regression Gates**: Ensuring zero breaking changes across multi-provider LLM API schemas.
 
-### 2. 🧪 Full Edge-Case Test Suite & Architecture Docs
-- **Jest Test Coverage**: Over 100 automated test suites covering audio decoding, intent classification, and multi-model failover chains.
-- **System Architecture Whitepaper**: Deep-dive component diagrams and execution flow documentation.
+### 2. 📐 System Architecture Whitepaper & Specifications
+- **ARCHITECTURE.md Deep-Dive**: Comprehensive system architecture documentation, IPC communication contracts, security threat modeling, and multi-threaded dataflow diagrams.
+- **PRODUCT_REQUIREMENTS.md**: Full PRD covering core problem statements, target personas, latency budgets, non-functional requirements, and future platform roadmap.
 
 ---
 
@@ -87,6 +94,7 @@ The following capabilities are actively scheduled in our progressive roadmap:
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher
+- **Python**: 3.10+ (for browser microservice)
 - **OS**: Windows 10 / 11
 
 ### 1. Installation
@@ -94,6 +102,14 @@ The following capabilities are actively scheduled in our progressive roadmap:
 git clone https://github.com/akhilgandloji789/FahOS.git
 cd FahOS
 npm install
+```
+
+For browser automation support:
+```bash
+cd src/python
+pip install -r requirements.txt
+playwright install chromium
+cd ../..
 ```
 
 ### 2. Configuration
@@ -119,6 +135,8 @@ Press **`Ctrl + Space`** or **`Alt + Space`** to summon the FahOS overlay from a
 
 | Category | Example Command | Expected Behavior |
 |:---|:---|:---|
+| **Autonomous Browsing** | *"Search for latest AI news on techcrunch"* | Opens embedded agent browser, navigates autonomously, and extracts summaries. |
+| **Web Research** | *"Look up the stock price of Microsoft"* | Launches browser agent or live search grounding to fetch real-time financial data. |
 | **Filesystem CRUD** | *"Create project_notes.txt in downloads"* | Creates file in `Downloads` and displays confirmation card. |
 | **Directory Inspection** | *"List files in downloads"* | Reads and formats directory contents in HUD. |
 | **File Reading** | *"Read project_notes.txt from downloads"* | Displays file contents in markdown view. |
