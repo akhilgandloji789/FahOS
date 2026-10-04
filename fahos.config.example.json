@@ -1,0 +1,21 @@
+{
+  "shortcut": "Control+Space",
+  "aiProvider": "openaiCompatible",
+  "geminiApiKey": "YOUR_GEMINI_API_KEY",
+  "providers": {
+    "openaiCompatible": {
+      "baseUrl": "https://api.groq.com/openai/v1",
+      "apiKey": "YOUR_GROQ_API_KEY",
+      "model": "qwen/qwen3.8-27b"
+    },
+    "gemini": {
+      "apiKey": "YOUR_GEMINI_API_KEY",
+      "model": "gemini-3.1-flash-lite"
+    },
+    "ollama": {
+      "baseUrl": "http://localhost:11434",
+      "model": "llama3.1",
+      "visionModel": "llava"
+    }
+  }
+}

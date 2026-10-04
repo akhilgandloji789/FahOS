@@ -1,0 +1,55 @@
+﻿/* ==========================================================================
+   FahOS Design System — Single Source of Truth Theme Tokens
+   Frosted Obsidian Glass · Ambient Cyan Accent · Precision Micro-interactions
+   ========================================================================== */
+
+:root {
+  /* Canvas & Glassmorphism Surfaces */
+  --bg-canvas: #090b10;
+  --bg-widget: rgba(14, 16, 23, 0.90);
+  --bg-frosted: rgba(18, 22, 32, 0.82);
+  --bg-card: rgba(25, 30, 44, 0.65);
+  --bg-card-hover: rgba(35, 42, 62, 0.85);
+  --bg-bubble: rgba(255, 255, 255, 0.045);
+  --bg-input: rgba(9, 12, 18, 0.85);
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.12);
+  --border-focus: #38bdf8;
+  --border-highlight: rgba(56, 189, 248, 0.35);
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+
+  /* Accent Colors */
+  --cyan: #38bdf8;
+  --cyan-glow: rgba(56, 189, 248, 0.35);
+  --cyan-subtle: rgba(56, 189, 248, 0.12);
+
+  --emerald: #10b981;
+  --emerald-glow: rgba(16, 185, 129, 0.40);
+  --emerald-subtle: rgba(16, 185, 129, 0.14);
+
+  --ruby: #ef4444;
+  --ruby-hover: #dc2626;
+  --ruby-glow: rgba(239, 68, 68, 0.35);
+  --ruby-subtle: rgba(239, 68, 68, 0.14);
+
+  --amber: #f59e0b;
+  --amber-glow: rgba(245, 158, 11, 0.35);
+  --amber-subtle: rgba(245, 158, 11, 0.14);
+
+  /* Transitions */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.18s var(--ease-smooth);
+  --transition-spring: all 0.28s var(--ease-spring);
+
+  color-scheme: dark;
+}

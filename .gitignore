@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+dist/
+packages/
+
+# Python Virtual Environments & Cache
+venv/
+.venv/
+browser-service/venv/
+__pycache__/
+browser-service/__pycache__/
+*.pyc
+
+# Local secrets and persistent user data
+fahos.config.json
+fahos_history.json
+contacts.json
+stt.log
+*.log
+.captures/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tmp
+
