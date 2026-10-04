@@ -32,11 +32,15 @@ FahOS is designed as an ultra-lightweight, floating obsidian glass HUD that sits
 
 ## 🚀 Hackathon Roadmap & Progress
 
-- [x] **Phase 1: Core Scaffolding & Glass HUD** *(Current)*
+- [x] **Phase 1: Core Scaffolding & Glass HUD**
   - Transparent obsidian glass overlay window
   - Zero-flicker dragging and frameless styling
   - IPC context isolation bridge
-- [ ] **Phase 2: Pluggable AI Multi-Provider Foundation & Router**
+- [x] **Phase 2: Pluggable AI Multi-Provider Foundation & Router** *(Current)*
+  - Multi-provider AI abstraction: Gemini 3.6 Flash, Groq Qwen 3.8, Ollama, and Mock
+  - 5-Tier dynamic complexity query orchestrator & failover matrix
+  - Intent classification and contextual routing
+  - Live web search grounding (DuckDuckGo + Wikipedia)
 - [ ] **Phase 3: System Automation, CRUD Filesystem & 3-Tier Security Guard**
 - [ ] **Phase 4: Real-Time Dual Whisper STT Audio Pipeline**
 - [ ] **Phase 5: Gemini Multimodal Vision & Native Mouse Control**

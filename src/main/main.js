@@ -1,11 +1,13 @@
 /**
  * FahOS - The Voice-First AI Operating Layer for Windows
- * Phase 1: Core Electron Shell & Obsidian Glass HUD Overlay
+ * Phase 2: Pluggable AI Multi-Provider Foundation & Intent Orchestrator
  */
 
 const { app, BrowserWindow, globalShortcut, ipcMain, screen, Tray, Menu, nativeImage } = require('electron');
 const path = require('path');
 const { loadConfig } = require('./config');
+const { runAction, createProvider } = require('./features/ai/router');
+const { orchestrateResponse, classifyQuery, getTierInfo, listTiers } = require('./features/ai/orchestrator');
 
 // Prevent duplicate instances
 const gotTheLock = app.requestSingleInstanceLock();
@@ -154,33 +156,37 @@ app.whenReady().then(() => {
     toggleOverlay();
   });
 
-  // ---- Core IPC Handlers (Phase 1) ----
+  // ---- AI Routing & Orchestration IPC Handlers (Phase 2) ----
   ipcMain.handle('fahos:getInfo', async () => ({
-    provider: 'FahOS Core',
+    provider: createProvider(cfg).name,
     shortcut: 'Ctrl+Space',
     version: app.getVersion(),
-    orchestrator: false
+    orchestrator: true
   }));
 
   ipcMain.handle('fahos:runAction', async (_event, payload) => {
+    const action = (payload && payload.action) || 'ask';
     const text = (payload && payload.text) || '';
-    return {
-      ok: true,
-      provider: 'FahOS Core',
-      output: `**FahOS Glass HUD Active!**\n\nReceived: "${text}"\n\n*Phase 1 Scaffolding complete. AI Orchestration pipeline connects in Phase 2.*`
-    };
+    if (!text.trim()) return { ok: false, provider: createProvider(cfg).name, error: 'Empty request.' };
+    return runAction({ cfg, action, text });
   });
 
   ipcMain.handle('fahos:orchestrate', async (_event, payload) => {
     const text = (payload && payload.text) || '';
-    return {
-      ok: true,
-      tier: 'simple',
-      provider: 'FahOS Core',
-      output: `**[FahOS HUD]** Core UI overlay active.\n\nQuery: *"${text}"*\n\n*(AI multi-model orchestrator is staged for Phase 2)*`
-    };
+    const hasImage = (payload && payload.hasImage) || false;
+    const imageBase64 = (payload && payload.imageBase64) || null;
+    if (!text.trim() && !hasImage) return { ok: false, error: 'Empty request.' };
+    const classification = classifyQuery(text, hasImage);
+    console.log(`[FahOS Orchestrator] Query: "${text.slice(0, 50)}..." → Tier: ${classification.tier}`);
+    return orchestrateResponse(cfg, text, hasImage, imageBase64);
   });
 
+  ipcMain.handle('fahos:getTierInfo', async (_event, tier) => {
+    if (tier) return getTierInfo(tier);
+    return { tiers: listTiers() };
+  });
+
+  // Auxiliary Stubs for UI features
   ipcMain.handle('fahos:getHistory', async () => []);
   ipcMain.handle('fahos:addHistory', async () => ({ ok: true }));
   ipcMain.handle('fahos:clearHistory', async () => ({ ok: true }));
