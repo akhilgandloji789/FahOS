@@ -1,0 +1,231 @@
+{
+  "passCount": 28,
+  "failCount": 0,
+  "total": 28,
+  "results": [
+    {
+      "id": "TC1.1",
+      "category": "16-bit Mono PCM",
+      "description": "Standard 16-bit Mono 16kHz PCM WAV with typical sample values",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Samples decoded: [0.000, 0.500, -0.500, 1.000]"
+    },
+    {
+      "id": "TC1.2",
+      "category": "16-bit Mono PCM",
+      "description": "Full range boundary values (-32768, 32767, 0)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Decoded boundary samples: [-1.000, 1.000, 0.000]"
+    },
+    {
+      "id": "TC1.3",
+      "category": "16-bit Mono PCM",
+      "description": "Odd sample count (3 samples)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Decoded 3 samples: [0.250, 0.500, 0.750]"
+    },
+    {
+      "id": "TC1.4",
+      "category": "16-bit Mono PCM",
+      "description": "Non-16kHz sample rate (44.1kHz)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Successfully decoded 44.1kHz WAV: [0.500, -0.500]"
+    },
+    {
+      "id": "TC1.5",
+      "category": "16-bit Mono PCM",
+      "description": "Empty data chunk (0 samples payload)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for zero samples as expected"
+    },
+    {
+      "id": "TC1.6",
+      "category": "16-bit Mono PCM",
+      "description": "Truncated sample payload (declared chunkSize > actual buffer length)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Decoded 5 available frames despite inflated chunkSize header"
+    },
+    {
+      "id": "TC2.1",
+      "category": "Stereo & Multi-channel",
+      "description": "Stereo 16-bit PCM channel striding & downmixing (2 frames)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Stereo 16-bit decoded frames: [0.500, 0.500]"
+    },
+    {
+      "id": "TC2.2",
+      "category": "Stereo & Multi-channel",
+      "description": "Stereo 16-bit PCM opposite phases downmixing to zero",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Stereo anti-phase decoded: [-0.000, 0.000]"
+    },
+    {
+      "id": "TC2.3",
+      "category": "Stereo & Multi-channel",
+      "description": "Stereo 32-bit Float PCM downmixing (2 frames)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Stereo 32-bit Float decoded: [0.500, -0.500]"
+    },
+    {
+      "id": "TC2.4",
+      "category": "Stereo & Multi-channel",
+      "description": "Multi-channel (4-channel 16-bit PCM, 2 frames)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "4-channel decoded frames count=2, 4-ch avg=[0.750, 0.273]"
+    },
+    {
+      "id": "TC2.5",
+      "category": "Stereo & Multi-channel",
+      "description": "Stereo 16-bit PCM with incomplete dangling sample bytes at end",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Incomplete stereo frame handled cleanly; 1 frame decoded"
+    },
+    {
+      "id": "TC3.1",
+      "category": "Metadata & Headers",
+      "description": "Metadata chunk (LIST/INFO) placed AFTER fmt chunk before data chunk",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Successfully skipped LIST metadata chunk after fmt chunk"
+    },
+    {
+      "id": "TC3.2",
+      "category": "Metadata & Headers",
+      "description": "Metadata chunk (JUNK) with odd length (15 bytes) after fmt chunk",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Odd-length chunk padding handled correctly; skipped JUNK chunk"
+    },
+    {
+      "id": "TC3.3",
+      "category": "Metadata & Headers",
+      "description": "Metadata chunk (JUNK) placed BEFORE fmt chunk (RIFF -> JUNK -> fmt -> data)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Unexpectedly returned: 0.5,0.5"
+    },
+    {
+      "id": "TC3.4",
+      "category": "Metadata & Headers",
+      "description": "Multiple metadata chunks (LIST, JUNK, bext) after fmt chunk",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Successfully skipped multiple metadata chunks (JUNK, LIST, bext)"
+    },
+    {
+      "id": "TC3.5",
+      "category": "Metadata & Headers",
+      "description": "Metadata chunk payload containing sub-string \"data\"",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Chunk parser correctly skips payload containing 'data' string"
+    },
+    {
+      "id": "TC4.1",
+      "category": "Invalid/Truncated Headers",
+      "description": "null input buffer",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for null input"
+    },
+    {
+      "id": "TC4.2",
+      "category": "Invalid/Truncated Headers",
+      "description": "undefined input buffer",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for undefined input"
+    },
+    {
+      "id": "TC4.3",
+      "category": "Invalid/Truncated Headers",
+      "description": "Empty Buffer.alloc(0)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for 0-byte buffer"
+    },
+    {
+      "id": "TC4.4",
+      "category": "Invalid/Truncated Headers",
+      "description": "Short Buffer (30 bytes, < 44 bytes)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for buffer length < 44"
+    },
+    {
+      "id": "TC4.5",
+      "category": "Invalid/Truncated Headers",
+      "description": "Invalid RIFF magic tag (e.g., \"NOPE\")",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for invalid RIFF header"
+    },
+    {
+      "id": "TC4.6",
+      "category": "Invalid/Truncated Headers",
+      "description": "Invalid WAVE format tag (e.g., \"MP3 \")",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for invalid WAVE header tag"
+    },
+    {
+      "id": "TC4.7",
+      "category": "Invalid/Truncated Headers",
+      "description": "Unsupported bitsPerSample = 8 (8-bit PCM)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for unsupported 8-bit sample depth"
+    },
+    {
+      "id": "TC4.8",
+      "category": "Invalid/Truncated Headers",
+      "description": "Unsupported bitsPerSample = 24 (24-bit PCM)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for unsupported 24-bit sample depth"
+    },
+    {
+      "id": "TC4.9",
+      "category": "Invalid/Truncated Headers",
+      "description": "Missing data chunk completely",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null when no data chunk exists"
+    },
+    {
+      "id": "TC4.10",
+      "category": "Invalid/Truncated Headers",
+      "description": "Truncated data chunk header (file ends mid data header)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Returned null for truncated data header"
+    },
+    {
+      "id": "TC4.11",
+      "category": "Invalid/Truncated Headers",
+      "description": "Zero-length metadata chunk before data chunk (chunkSize = 0)",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Decoded samples: 2"
+    },
+    {
+      "id": "TC4.12",
+      "category": "Invalid/Truncated Headers",
+      "description": "Node Buffer subarray with byteOffset > 0",
+      "status": "PASS",
+      "errorMsg": null,
+      "details": "Node Buffer slice (byteOffset=20) decoded correctly"
+    }
+  ]
+}
